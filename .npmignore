@@ -1,0 +1,5 @@
+# Development files
+public
+src
+.babelrc
+.gitignore

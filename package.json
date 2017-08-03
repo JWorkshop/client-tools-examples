@@ -1,0 +1,30 @@
+{
+  "name": "client-tools-examples",
+  "version": "0.0.1",
+  "description": "My project examples using client-tools",
+  "author": "JWorkshop",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "client-tools": "file:///Users/johnwong/Documents/github/client-tools",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "node-sass": "^4.5.0",
+    "npm-run-all": "^4.0.2"
+  },
+  "scripts": {
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && babel src -d lib --copy-files --ignore *.scss"
+  },
+  "babel": {
+    "presets": ["env", "react"]
+  }
+}
