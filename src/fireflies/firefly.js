@@ -14,7 +14,7 @@ const getMinVariation = (origin, target, variation) => {
 };
 
 export default class Firefly {
-  constructor (width, height) {
+  constructor() {
     /* Behaviour. Initially Wander. */
     this.behaviour = null;
 
@@ -51,25 +51,27 @@ export default class Firefly {
     /* Direction. */
     this.direction = 0;
     this.directionVar = 0;
-  };
+  }
 
-  initialise (width, height) {
+  initialise(width, height) {
     this.behaviour = Behaviours.WANDER;
     this.radius = 10 + 20 * Math.random();
     this.position.x = width * Math.random();
     this.position.y = height;
     this.speed = 0;
     this.direction = 0;
-  };
+  }
 
-  isOutOfBound (width, height) {
+  isOutOfBound(width, height) {
     let { x, y } = this.position;
     let radius = this.radius;
 
-    return x < -radius || width + radius < x || y < -radius || height + radius < y;
-  };
+    return (
+      x < -radius || width + radius < x || y < -radius || height + radius < y
+    );
+  }
 
-  behave (target) {
+  behave(target) {
     const {
       getColor,
       getSpeed,
@@ -95,9 +97,9 @@ export default class Firefly {
     this.directionVar = getDirectionVar(o, t);
     this.brightnessMin = getBrightnessMin(o, t);
     this.brightnessMax = getBrightnessMax(o, t);
-  };
+  }
 
-  updateColor (timeDiff) {
+  updateColor(timeDiff) {
     let { r, g, b } = this.color;
     let variation = this.colorVar * timeDiff;
     let { r: bR, g: bG, b: bB } = this.behaviourColor;
@@ -105,35 +107,35 @@ export default class Firefly {
     this.color.r = (r + getMinVariation(r, bR, variation)) >> 0;
     this.color.g = (g + getMinVariation(g, bG, variation)) >> 0;
     this.color.b = (b + getMinVariation(b, bB, variation)) >> 0;
-  };
+  }
 
-  updateBrightness (timeDiff) {
+  updateBrightness(timeDiff) {
     let b = this.brightness;
     let bMax = this.brightnessMax;
     let bMin = this.brightnessMin;
     let bVar = this.brightnessVar;
 
-    this.brightnessGrd = (b >= bMax) ? -1 : (b <= bMin) ? 1 : this.brightnessGrd;
+    this.brightnessGrd = b >= bMax ? -1 : b <= bMin ? 1 : this.brightnessGrd;
     this.brightness += this.brightnessGrd * bVar * timeDiff;
-  };
+  }
 
-  updateSpeed (timeDiff) {
+  updateSpeed(timeDiff) {
     let speed = this.speed;
     let bSpeed = this.behaviourSpeed;
     let variation = this.acceleration * timeDiff;
 
     this.speed += getMinVariation(speed, bSpeed, variation);
-  };
+  }
 
-  updateDirection (timeDiff) {
+  updateDirection(timeDiff) {
     let d = this.direction;
     let dVar = this.directionVar;
 
     d += dVar * timeDiff;
     this.direction = roundAngle(d);
-  };
+  }
 
-  updateVelocityPosition (timeDiff) {
+  updateVelocityPosition(timeDiff) {
     let speed = this.speed;
     let direction = this.direction;
     let vX = speed * Math.cos(direction);
@@ -143,19 +145,19 @@ export default class Firefly {
     this.velocity.y = vY;
     this.position.x += vX * timeDiff;
     this.position.y += vY * timeDiff;
-  };
+  }
 
-  update (width, height, timeDiff, target) {
-    const action = target.getAction();
+  update(width, height, timeDiff, target) {
     const position = target.getPosition();
+    const action = target.getAction();
 
     this.behaviour = Behaviours.WANDER;
 
-    if (action && action.behaviour) {
+    if (position && action && action.behaviour) {
       const { behaviour, effectiveRange } = action;
 
       /* Calculate the distance between itself and the mouse position. */
-			let distance = getDistance(this.position, position);
+      let distance = getDistance(this.position, position);
 
       /* If the firefly is within the effective range,
        * then apply the action behaviour. Otherwise it will stay in wander. */
@@ -175,9 +177,9 @@ export default class Firefly {
       this.updateDirection(timeDiff);
       this.updateVelocityPosition(timeDiff);
     }
-  };
+  }
 
-  paint (context, width, height) {
+  paint(context) {
     context.beginPath();
 
     let { x, y } = this.position;
@@ -195,5 +197,5 @@ export default class Firefly {
     context.arc(x, y, radius, 2 * Math.PI, false);
     context.closePath();
     context.fill();
-  };
-};
+  }
+}

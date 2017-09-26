@@ -8,33 +8,37 @@ import Target from "./target";
 
 import "./style.css";
 
-export default class Fireflies extends Component {
-  constructor (props) {
+class Fireflies extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       target: new Target(props.mouse)
     };
-  };
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     const { mouse } = this.props;
-    const { container } = this.refs;
+    const scene = this.scene;
 
-    mouse.attachToElement(container);
-  };
+    mouse.attachToElement(scene);
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { mouse } = this.props;
 
     mouse.detachFromElement();
-  };
+  }
 
-  render () {
+  render() {
     const { className, style, animator } = this.props;
     const { target } = this.state;
 
     return (
-      <div ref="container" className={ClassNames("fireflies_scene", className)} style={style}>
+      <div
+        ref={scene => (this.scene = scene)}
+        className={ClassNames("fireflies-scene", className)}
+        style={style}
+      >
         <FirefliesLayer animator={animator} target={target} />
         <FirefliesLayer animator={animator} target={target} />
         <FirefliesLayer animator={animator} target={target} />
@@ -42,15 +46,21 @@ export default class Fireflies extends Component {
         <FirefliesLayer animator={animator} target={target} />
       </div>
     );
-  };
+  }
+}
+
+Fireflies.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.shape(),
+  animator: PropTypes.object,
+  mouse: PropTypes.object
 };
 
 Fireflies.defaultProps = {
+  className: "",
+  style: {},
   animator: new Animator(),
   mouse: new Mouse()
 };
 
-Fireflies.propTypes = {
-  animator: PropTypes.object,
-  mouse: PropTypes.object
-};
+export default Fireflies;

@@ -1,6 +1,6 @@
 import Behaviours from "./behaviours";
 
-const actions = {
+export default {
   HOLD: {
     behaviour: Behaviours.ATTRACT,
     effectiveRange: 300,
@@ -17,5 +17,3 @@ const actions = {
     blurFactor: 0
   }
 };
-
-export default actions;

@@ -7,15 +7,15 @@ import Firefly from "../firefly";
 
 import "./style.css";
 
-export default class FirefliesLayer extends Component {
-  constructor (props) {
+class FirefliesLayer extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       fireflies: []
     };
-  };
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     const { number, animator } = this.props;
     let fireflies = [];
 
@@ -29,21 +29,21 @@ export default class FirefliesLayer extends Component {
 
     animator.add(timeDiff => this.update(timeDiff));
     animator.start();
-  };
+  }
 
-  update (timeDiff) {
+  update(timeDiff) {
     const { target } = this.props;
-    const { fireflies_layer } = this.refs;
-    const { width, height } = fireflies_layer.state;
+    const layer = this.layer;
+    const { width, height } = layer.state;
     const { fireflies } = this.state;
 
     /* Update the fireflies. */
     for (let i = 0; i < fireflies.length; i++) {
       fireflies[i].update(width, height, timeDiff, target);
     }
-  };
+  }
 
-  animate (context, width, height, timeDiff) {
+  animate(context, width, height) {
     const { fireflies } = this.state;
 
     /* Clear the canvas screen. */
@@ -56,15 +56,15 @@ export default class FirefliesLayer extends Component {
     for (let i = 0; i < fireflies.length; i++) {
       fireflies[i].paint(context, width, height);
     }
-  };
+  }
 
-  render () {
+  render() {
     const { className, style, animator } = this.props;
 
     return (
       <CanvasAnimator
-        ref="fireflies_layer"
-        className={ClassNames("fireflies_layer", className)}
+        ref={layer => (this.layer = layer)}
+        className={ClassNames("fireflies-layer", className)}
         style={style}
         animator={animator}
         animate={(context, width, height, timeDiff) => {
@@ -72,17 +72,23 @@ export default class FirefliesLayer extends Component {
         }}
       />
     );
-  };
+  }
+}
+
+FirefliesLayer.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.shape(),
+  number: PropTypes.number,
+  animator: PropTypes.object,
+  target: PropTypes.object
 };
 
 FirefliesLayer.defaultProps = {
+  className: "",
+  style: {},
   number: 20,
   animator: new Animator(),
   target: null
 };
 
-FirefliesLayer.propTypes = {
-  number: PropTypes.number,
-  animator: PropTypes.object,
-  target: PropTypes.object
-};
+export default FirefliesLayer;

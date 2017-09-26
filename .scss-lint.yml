@@ -1,0 +1,17 @@
+linters:
+  PropertySortOrder:
+    order: concentric
+
+  HexLength:
+    enabled: true
+    style: long
+
+  HexNotation:
+    enabled: true
+    style: uppercase
+
+  HexValidation:
+    enabled: true
+
+  ZeroUnit:
+    enabled: false

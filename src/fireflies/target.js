@@ -1,7 +1,7 @@
 import Actions from "./actions";
 
 export default class Target {
-  constructor (mouse) {
+  constructor(mouse) {
     this.mouse = mouse;
     this.clicked = false;
     this.dashSpeed = 1000;
@@ -9,15 +9,15 @@ export default class Target {
 
     mouse.onMouseDown(() => {
       this.clicked = true;
-      setTimeout(() => this.clicked = false, this.clickTime);
+      setTimeout(() => (this.clicked = false), this.clickTime);
     });
-  };
+  }
 
-  getPosition () {
+  getPosition() {
     return this.mouse.position;
-  };
+  }
 
-  getBlurredPosition () {
+  getBlurredPosition() {
     let action = this.getAction();
     let position = this.mouse.position;
 
@@ -34,25 +34,28 @@ export default class Target {
     } else {
       return position;
     }
-  };
+  }
 
-  getDirection () {
+  getDirection() {
     return this.mouse.direction;
-  };
+  }
 
-  getSpeed () {
+  getSpeed() {
     return this.mouse.movingSpeed;
-  };
+  }
 
-  getAction () {
-    if (this.clicked) {
+  getAction() {
+    const { clicked, mouse, dashSpeed } = this;
+    const { isMouseDown, isLeftButton, movingSpeed } = mouse;
+
+    if (clicked) {
       return Actions.CLICK;
-    } else if (this.mouse.isMouseDown) {
+    } else if (isMouseDown && isLeftButton) {
       return Actions.HOLD;
-    } else if (this.mouse.movingSpeed > this.dashSpeed) {
+    } else if (movingSpeed > dashSpeed) {
       return Actions.DASH;
     } else {
       return null;
     }
-  };
-};
+  }
+}
