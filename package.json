@@ -34,7 +34,7 @@
   },
   "eslintConfig": {
     "parserOptions": {
-      "ecmaVersion": 6,
+      "ecmaVersion": 8,
       "sourceType": "module",
       "ecmaFeatures": {
         "jsx": true
@@ -48,7 +48,8 @@
     "plugins": ["react"],
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "rules": {
-      "semi": 2
+      "semi": 2,
+      "no-empty": 0
     }
   }
 }

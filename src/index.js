@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Fireflies from "./fireflies";
+import Matrix from "./matrix";
 
 import "./style.css";
 
-ReactDOM.render((
+ReactDOM.render(
   <div className="client-tools-example">
-    <Fireflies style={{ position: "absolute", width: "100%", height: "100%" }} />
-  </div>
-), document.getElementById("root"));
+    <Matrix style={{ position: "absolute", width: "100%", height: "100%" }} />
+  </div>,
+  document.getElementById("root")
+);

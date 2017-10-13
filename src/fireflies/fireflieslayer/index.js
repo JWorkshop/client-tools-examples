@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Animator, CanvasAnimator } from "client-tools";
 
 import Firefly from "../firefly";
+import Target from "../target";
 
 import "./style.css";
 
@@ -16,10 +17,10 @@ class FirefliesLayer extends Component {
   }
 
   componentDidMount() {
-    const { number, animator } = this.props;
+    const { count, animator } = this.props;
     let fireflies = [];
 
-    for (let i = 0; i < number; i++) {
+    for (let i = 0; i < count; i++) {
       fireflies.push(new Firefly());
     }
 
@@ -62,15 +63,17 @@ class FirefliesLayer extends Component {
     const { className, style, animator } = this.props;
 
     return (
-      <CanvasAnimator
-        ref={layer => (this.layer = layer)}
-        className={ClassNames("fireflies-layer", className)}
-        style={style}
-        animator={animator}
-        animate={(context, width, height, timeDiff) => {
-          this.animate(context, width, height, timeDiff);
-        }}
-      />
+      <div>
+        <CanvasAnimator
+          ref={layer => (this.layer = layer)}
+          className={ClassNames("fireflies-layer", className)}
+          style={style}
+          animator={animator}
+          animate={(context, width, height, timeDiff) => {
+            this.animate(context, width, height, timeDiff);
+          }}
+        />
+      </div>
     );
   }
 }
@@ -78,15 +81,15 @@ class FirefliesLayer extends Component {
 FirefliesLayer.propTypes = {
   className: PropTypes.string,
   style: PropTypes.shape(),
-  number: PropTypes.number,
-  animator: PropTypes.object,
-  target: PropTypes.object
+  count: PropTypes.number,
+  animator: PropTypes.instanceOf(Animator),
+  target: PropTypes.instanceOf(Target)
 };
 
 FirefliesLayer.defaultProps = {
   className: "",
   style: {},
-  number: 20,
+  count: 20,
   animator: new Animator(),
   target: null
 };

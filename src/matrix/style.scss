@@ -1,0 +1,95 @@
+$white: #ffffff;
+$black: #000000;
+
+.matrix-scene {
+  position: relative;
+  background-color: $black;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .matrix-play-button,
+  .matrix-camera-button {
+    position: absolute;
+    left: 0px;
+    margin: 10px;
+    border: 0px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    appearance: none;
+  }
+
+  .matrix-camera-button {
+    left: 60px;
+  }
+
+  .matrix-color,
+  .matrix-font-size,
+  .matrix-line-height {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    margin: 10px;
+
+    label,
+    input {
+      text-align: right;
+      color: $white;
+      font-family: Courier New, Courier, Andale Mono, monospace;
+      font-size: 12px;
+    }
+
+    label {
+      display: inline-block;
+      margin-right: 5px;
+      width: 50px;
+      vertical-align: middle;
+      text-shadow: 1px 1px 1px $black;
+      line-height: 12px;
+    }
+
+    input {
+      border: 1px solid $white;
+      background: $black;
+      width: 40px;
+      height: 20px;
+    }
+  }
+
+  .matrix-color {
+    right: 200px;
+    box-shadow: 1px 1px 5px 0px $white;
+  }
+
+  .matrix-font-size {
+    right: 100px;
+  }
+
+  .matrix-video {
+    display: none;
+  }
+
+  .matrix-canvas,
+  .matrix-ascii {
+    position: absolute;
+    top: 10%;
+    right: 0px;
+    bottom: 10%;
+    left: 0px;
+  }
+
+  .matrix-canvas {
+    visibility: hidden;
+  }
+
+  .matrix-ascii-text {
+    line-height: 5px;
+    color: $white;
+    font-size: 4px;
+    user-select: none;
+  }
+}

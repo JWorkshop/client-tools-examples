@@ -11,20 +11,22 @@ import "./style.css";
 class Fireflies extends Component {
   constructor(props) {
     super(props);
+
+    this.mouse = new Mouse();
+
     this.state = {
-      target: new Target(props.mouse)
+      target: new Target(this.mouse)
     };
   }
 
   componentDidMount() {
-    const { mouse } = this.props;
-    const scene = this.scene;
+    const { mouse, scene } = this;
 
     mouse.attachToElement(scene);
   }
 
   componentWillUnmount() {
-    const { mouse } = this.props;
+    const { mouse } = this;
 
     mouse.detachFromElement();
   }
@@ -52,15 +54,13 @@ class Fireflies extends Component {
 Fireflies.propTypes = {
   className: PropTypes.string,
   style: PropTypes.shape(),
-  animator: PropTypes.object,
-  mouse: PropTypes.object
+  animator: PropTypes.instanceOf(Animator)
 };
 
 Fireflies.defaultProps = {
   className: "",
   style: {},
-  animator: new Animator(),
-  mouse: new Mouse()
+  animator: new Animator()
 };
 
 export default Fireflies;

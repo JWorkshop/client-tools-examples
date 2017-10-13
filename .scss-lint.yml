@@ -8,10 +8,13 @@ linters:
 
   HexNotation:
     enabled: true
-    style: uppercase
+    style: lowercase
 
   HexValidation:
     enabled: true
 
   ZeroUnit:
+    enabled: false
+
+  LeadingZero:
     enabled: false
