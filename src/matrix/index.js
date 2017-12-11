@@ -14,6 +14,8 @@ import demoSource from "./demo.ogv";
 import play from "./play.png";
 import pause from "./pause.png";
 import camera from "./camera.png";
+import movie from "./movie.png";
+import copy from "./copy.png";
 
 import "./style.css";
 
@@ -106,6 +108,19 @@ class Matrix extends Component {
     }
   }
 
+  copyClickHandler() {
+    const { asciifier } = this;
+    const asciiElement = asciifier.getAsciiElement();
+    const range = document.createRange();
+    const selection = window.getSelection();
+
+    range.selectNodeContents(asciiElement);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    document.execCommand("Copy");
+  }
+
   update() {
     const { video, canvas, asciifier } = this;
     const context = canvas.getContext();
@@ -124,7 +139,14 @@ class Matrix extends Component {
 
   render() {
     const { className, style, animator } = this.props;
-    const { paused, color, fontSize, lineHeight, source } = this.state;
+    const {
+      paused,
+      onCamera,
+      color,
+      fontSize,
+      lineHeight,
+      source
+    } = this.state;
     const { r, g, b, a } = color;
 
     return (
@@ -167,8 +189,13 @@ class Matrix extends Component {
           />
           <button
             className="matrix-camera-button"
-            style={{ backgroundImage: `url(${camera})` }}
+            style={{ backgroundImage: `url(${onCamera ? movie : camera})` }}
             onClick={() => this.cameraClickHandler()}
+          />
+          <button
+            className="matrix-copy-button"
+            style={{ backgroundImage: `url(${copy})` }}
+            onClick={() => this.copyClickHandler()}
           />
           <ColorPicker
             id="color"
@@ -183,7 +210,8 @@ class Matrix extends Component {
             label="font size"
             value={fontSize}
             onChange={value =>
-              this.setState({ fontSize: max(2, value) }, () => this.update())}
+              this.setState({ fontSize: max(2, value) }, () => this.update())
+            }
           />
           <InputField
             id="lineHeight"
@@ -191,7 +219,8 @@ class Matrix extends Component {
             label="line height"
             value={lineHeight}
             onChange={value =>
-              this.setState({ lineHeight: max(2, value) }, () => this.update())}
+              this.setState({ lineHeight: max(2, value) }, () => this.update())
+            }
           />
         </div>
       </div>
